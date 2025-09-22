@@ -14,7 +14,7 @@
 
 
 /* Base */
-html, body, #root { height: 100%; }
+html, body, #root { height: 103%; }
 body {
 margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 color: var(--text); background: radial-gradient(1200px 800px at -10% -10%, rgba(124,58,237,0.35), transparent 60%), radial-gradient(900px 500px at 110% 10%, rgba(34,211,238,0.35), transparent 60%), var(--bg);

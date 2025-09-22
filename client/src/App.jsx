@@ -207,16 +207,16 @@ useEffect( () => {
                 <option>German</option>
               </select>
             </div>
-            <div className="field">
-            <label>Emotion</label>
-            <select className="select" value={emotion} onChange={(e)=>setEmotion(e.target.value)}>
-              <option value="neutral">Neutral</option>
-              <option value="cheerful">Cheerful</option>
-              <option value="serious">Serious</option>
-              <option value="sad">Sad</option>
-              <option value="excited">Excited</option>
-            </select>
-          </div>
+            {/* <div className="field">
+              <label>Emotion</label>
+              <select className="select" value={emotion} onChange={(e)=>setEmotion(e.target.value)}>
+                <option value="neutral">Neutral</option>
+                <option value="cheerful">Cheerful</option>
+                <option value="serious">Serious</option>
+                <option value="sad">Sad</option>
+                <option value="excited">Excited</option>
+              </select>
+            </div> */}
           </div>
 
           <div className="btns">
