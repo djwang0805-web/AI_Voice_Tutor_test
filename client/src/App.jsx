@@ -104,10 +104,10 @@ function App() {
 useEffect( () => {
   let text = '', name = '';
   if (!textList) return;
-  if ( lang === 'English' ) name = 'Maria';
-  else name = "Bernd";
   for(let i = 0 ; i < textList.length ; i ++){
     let item = textList[i];
+    if ( item.lang === 'en-US' ) name = 'Maria';
+    else name = "Bernd";
     text += `\n${name}: ${item.text}`
   }
   setText(text)
