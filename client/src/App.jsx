@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import { planProsody } from './prosodyPlanner';
 import './App.css'
 import './theme.css'
 
@@ -44,15 +45,20 @@ function App() {
   const queueRef = useRef(null);
 
   const [emotion, setEmotion] = useState('excited'); // 'cheerful' | 'serious' | 'sad' | 'excited'
+  const fxPlanRef = useRef([]);
+  const nextIdxRef = useRef(0);
 
   // map emotion → FX (tweak to taste)
   function fxForEmotion(name) {
     switch (name) {
-      case 'cheerful': return { gain: 1.06, detune: +0.35, brightness: 5,  pauseBefore: 20,  pauseAfter: 70 };
-      case 'serious':  return { gain: 0.96, detune: -0.30, brightness: -2, pauseBefore: 40,  pauseAfter: 90 };
-      case 'sad':      return { gain: 0.92, detune: -0.45, brightness: -4, pauseBefore: 80,  pauseAfter: 140 };
-      case 'excited':  return { gain: 1.08, detune: +0.50, brightness: 7,  pauseBefore: 10,  pauseAfter: 40 };
-      default:         return { gain: 1.00, detune: 0,     brightness: 0,  pauseBefore: 20,  pauseAfter: 60 };
+      case 'cheerful': return { gain: 1.06, detune: +0.35, brightness: 4,  pauseBefore: 10, pauseAfter: 70 };
+      case 'serious':  return { gain: 0.96, detune: -0.30, brightness: -2, pauseBefore: 30, pauseAfter: 90 };
+      case 'excited':  return { gain: 1.08, detune: +0.50, brightness: 6,  pauseBefore: 6,  pauseAfter: 40 };
+      case 'curious':  return { gain: 1.00, detune: +0.40, brightness: 2,  pauseBefore: 12, pauseAfter: 70 };
+      case 'contrast': return { gain: 1.08, detune: +0.20, brightness: 3,  pauseBefore: 20, pauseAfter: 80 };
+      case 'emph':     return { gain: 1.12, detune: +0.25, brightness: 5,  pauseBefore: 8,  pauseAfter: 60 };
+      case 'rise':     return { gain: 1.00, detune: +0.60, brightness: 0,  pauseBefore: 0,  pauseAfter: 80 };
+      default:         return { gain: 1.00, detune: 0,     brightness: 0,  pauseBefore: 15, pauseAfter: 60 };
     }
   }
 
@@ -80,8 +86,9 @@ function App() {
       }
       return;
     }
-    const fx = fxForEmotion(emotion);
+    const fx = fxPlanRef.current[nextIdxRef.current] || fxForEmotion('neutral');
     await queueRef.current.enqueue(event.data, fx);
+    nextIdxRef.current += 1;
   };
 
   ws.addEventListener('open', onOpen);
@@ -113,19 +120,28 @@ useEffect( () => {
   setText(text)
 }, [textList])
 
+  // Build plan + send
   function synthesize() {
-    // Wake / resume audio context due to user gesture policies
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
     getCtx().resume();
 
-    
+    const plan = planProsody(textList);     // -> [{text, lang, rate, emotion, pauseAfterMs}]
+    fxPlanRef.current = plan.map(p => fxForEmotion(p.emotion));
+    nextIdxRef.current = 0;
+
+    const spans = plan.map(p => ({
+      text: p.text,
+      lang: p.lang,
+      rate: p.rate
+    }));
+
     const payload = {
       type: 'SYNTH',
-      audioFormat: format,
-      speakingRate: Number(speakingRate),
-      pitch: Number(pitch),
-      spans: textList
+      audioFormat: format,          // LINEAR16 recommended with Piper
+      speakingRate: 1.0,            // base; each span has p.rate
+      spans
     };
-    wsRef.current?.send(JSON.stringify(payload));
+    wsRef.current.send(JSON.stringify(payload));
   }
 
   const addTextLine = () => {
@@ -138,6 +154,7 @@ useEffect( () => {
       Lang = 'de-DE'
     }
     setTextList([...textList, {text: textLine, voiceName, lang: Lang}]);
+    setText('');
   }
   const popText = () => {
     setTextList( prev => prev.slice(0, -1) )

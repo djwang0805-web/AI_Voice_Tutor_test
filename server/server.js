@@ -59,13 +59,13 @@ wss.on('connection', (ws) => {
       for (const span of msg.spans || []) {
         const lang = span.lang || 'en-US';
         const modelPath = VOICE_MODELS[lang];
-        if (!modelPath) {
-          throw new Error(`No Piper model mapped for language ${lang}`);
-        }
-        console.log(span.text)
-        const wav = await piperSynthesizeFile(span.text || '', modelPath, {
-          speakingRate: msg.speakingRate,
-          // Piper CLI has limited direct pitch control; we ignore msg.pitch here.
+        if (!modelPath) throw new Error(`No Piper model mapped for language ${lang}`);
+
+        const text = (span.text ?? '').trim();
+        if (!text) continue;
+
+        const wav = await piperSynthesizeFile(text, modelPath, {
+          speakingRate: Number.isFinite(span.rate) ? span.rate : msg.speakingRate
         });
 
         ws.send(wav, { binary: true });

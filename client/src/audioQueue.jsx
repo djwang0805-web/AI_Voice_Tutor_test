@@ -9,7 +9,7 @@ export class AudioQueue {
   constructor() {
     this.ctx = getCtx();
     this.cursor = this.ctx.currentTime;
-    this.minGap = 0.05;
+    this.minGap = 0.08;
   }
 
   async enqueue(arrayBuffer) {
