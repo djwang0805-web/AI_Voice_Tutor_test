@@ -59,7 +59,7 @@ padding: 12px 14px; outline:none; transition: 0.2s border, 0.2s box-shadow;
 border-top-right-radius: 8px;
 }
 .textarea:focus, .input:focus, .select:focus { box-shadow: var(--ring); border-color: var(--accent); }
-.textarea { min-height: 120px; resize: vertical; }
+.textarea { min-height: 120px; resize: vertical; height: 305px; }
 .row { display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 
 
