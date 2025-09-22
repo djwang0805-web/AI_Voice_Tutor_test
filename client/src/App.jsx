@@ -261,8 +261,8 @@ useEffect( () => {
           </div>
 
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <span className="badge"><span className="dot ok" /> en-US</span>
-            <span className="badge"><span className="dot" /> de-DE</span>
+            <span className="badge"><span className="dot ok" /> en-US(Maria)</span>
+            <span className="badge"><span className="dot" /> de-DE(Bernd)</span>
           </div>
         </div>
       </section>
