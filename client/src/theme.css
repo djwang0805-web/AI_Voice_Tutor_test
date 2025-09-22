@@ -90,3 +90,11 @@ box-shadow: 0 6px 20px rgba(124,58,237,.35); transition: transform .06s ease, fi
 
 .footer { color: var(--muted); font-size:12px; margin-top: 18px; text-align:center; }
 
+.author{
+  position: fixed;
+  right:100px;
+  top:20px;
+  color:#473a3a;
+  text-shadow: 2px 2px 4px lightgray;
+  text-shadow: 2px 2px 5px lightyellow;
+}
