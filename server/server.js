@@ -62,7 +62,7 @@ wss.on('connection', (ws) => {
         if (!modelPath) {
           throw new Error(`No Piper model mapped for language ${lang}`);
         }
-
+        console.log(span.text)
         const wav = await piperSynthesizeFile(span.text || '', modelPath, {
           speakingRate: msg.speakingRate,
           // Piper CLI has limited direct pitch control; we ignore msg.pitch here.
@@ -107,7 +107,7 @@ async function piperSynthesizeFile(text, modelPath, opts = {}) {
     `piper_${Date.now()}_${Math.random().toString(36).slice(2)}.wav`
   );
 
-  const args = ['-m', modelPath, '--output_file', outPath, '--text', text];
+  const args = ['-m', modelPath, '--output_file', outPath, '', text];
 
   // Optional speed: Piper's length_scale is ~ inverse of speaking rate
   if (opts.speakingRate && Number.isFinite(opts.speakingRate) && opts.speakingRate > 0) {
@@ -123,6 +123,7 @@ async function piperSynthesizeFile(text, modelPath, opts = {}) {
         TMP: PIPER_TMP,
         TEMP: PIPER_TMP,
         TMPDIR: PIPER_TMP,
+        PYTHONUTF8: '1',
       },
     });
 
@@ -132,6 +133,7 @@ async function piperSynthesizeFile(text, modelPath, opts = {}) {
       if (code === 0) return resolve();
       reject(new Error(`piper exited with code ${code}`));
     });
+
   });
 
   try {
