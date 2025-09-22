@@ -169,7 +169,7 @@ useEffect( () => {
         {/* Left card: Text & Speak */}
         <div className="card pad stack">
           <div className="field">
-            <label>You can create a wonderful <b>bilingual conversation</b> yourself.</label>
+            <label style={{fontSize:'18px'}}>You can create a wonderful <b>bilingual conversation</b> yourself.</label>
             <textarea
               className="textarea"
               rows={6}
