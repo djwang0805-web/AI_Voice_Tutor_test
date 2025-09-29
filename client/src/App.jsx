@@ -7,7 +7,7 @@ import './theme.css'
 
 import { AudioQueue, getCtx } from './audioQueue'
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'https://clastic-patiently-sherrell.ngrok-free.app';
+const WS_URL = import.meta.env.VITE_WS_URL || 'wss://2400a500c7bc.ngrok-free.app';
 
 function App() {
   const [text, setText] = useState('');
