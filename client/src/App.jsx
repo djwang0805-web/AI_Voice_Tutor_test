@@ -168,7 +168,7 @@ useEffect( () => {
     // ---------- THEMED UI ----------
   return (
     <div className="container">
-      {/* <h3 className="author">Author: Illia(Poland)</h3> */}
+      <h3 className="author">Author: Oleksandr Alieksieiev(Poland)</h3>
       <header className="header">
         <div className="brand">
           <div className="logo" />
