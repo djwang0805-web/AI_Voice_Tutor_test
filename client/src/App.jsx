@@ -7,7 +7,7 @@ import './theme.css'
 
 import { AudioQueue, getCtx } from './audioQueue'
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'wss://6fa2541ce756.ngrok-free.app';
+const WS_URL = import.meta.env.VITE_WS_URL || 'wss://99a0c4a0490a.ngrok-free.app';
 
 function App() {
   const [text, setText] = useState('');
