@@ -73,7 +73,7 @@ function App() {
     if (cancelled) { try { ws.close(); } catch {} return; }
     wsRef.current = ws;
     setStatus('connected');
-  };
+  }; 
   const onClose = () => setStatus('disconnected');
   const onError = (e) => { console.error('WS error', e); setStatus('error'); };
   const onMessage = async (event) => {
